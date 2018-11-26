@@ -5,14 +5,10 @@ df = pd.read_csv("profile_semantic_trafo_final.txt", sep=' ')
 df = df.rename(index=str, columns={"time": "start", "start": "target", "target": "weight", "weight": "x"})
 del df['x']
 df # Cleaned up the dataframe eventhough theres probably a better solution out there, i just read it as csv because lazy
-# remove dupicates?
-# Missing values? remove, find an approximation? Repition?
 
+rowarray = df.values # Making an array out of this one
+print(rowarray[0,0])  # Checking how indexing works, sadly it stores rows seperatly not columns but computationally it's not a problem
+print(rowarray) # Printing the whole np array, np stores it using less memory.
 
-# 3D array out of this dataframe? By making a 3 way list?
-x = []
-b = []
-c = []
-c.append(df['start'])
-b.append(df['target'])
-x.append(df['weight'])
+df.describe() # minimum tends to be > 0 so there are no missing data
+df.isnull().sum() # checking for NaN, again no missing data
