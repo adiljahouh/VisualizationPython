@@ -10,3 +10,9 @@ df # Cleaned up the dataframe eventhough theres probably a better solution out t
 
 
 # 3D array out of this dataframe? By making a 3 way list?
+x = []
+b = []
+c = []
+c.append(df['start'])
+b.append(df['target'])
+x.append(df['weight'])
