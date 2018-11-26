@@ -9,4 +9,4 @@ df # Cleaned up the dataframe eventhough theres probably a better solution out t
 # Missing values? remove, find an approximation? Repition?
 
 
-# 3D array out of this dataframe?
+# 3D array out of this dataframe? By making a 3 way list?
