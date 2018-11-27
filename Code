@@ -1,14 +1,23 @@
 import numpy as np  # import auxiliary library, typical idiom
 import pandas as pd  # import the Pandas library, typical idiom
-
+from sys import getsizeof
 df = pd.read_csv("profile_semantic_trafo_final.txt", sep=' ')
-df = df.rename(index=str, columns={"time": "start", "start": "target", "target": "weight", "weight": "x"})
+df = df.rename(index=int, columns={"time": "start", "start": "target", "target": "weight", "weight": "x"})
 del df['x']
-df # Cleaned up the dataframe eventhough theres probably a better solution out there, i just read it as csv because lazy
-
-rowarray = df.values # Making an array out of this one
-print(rowarray[0,0])  # Checking how indexing works, sadly it stores rows seperatly not columns but computationally it's not a problem
-print(rowarray) # Printing the whole np array, np stores it using less memory.
-
-df.describe() # minimum tends to be > 0 so there are no missing data
-df.isnull().sum() # checking for NaN, again no missing data
+df = df.reset_index()
+df= df.rename(index=str, columns={"index": "time"})
+df["start-target"] = df["start"].map(str) + "-" + df["target"].map(str)
+del df['target']
+del df['start']
+    # Cleaned up the dataframe eventhough theres probably a better solution out there for less memory usage.
+    # Numpy arrays store data using less memory than a list.
+def array():
+    df.describe() # minimum tends to be > 0 so there are no missing data
+    if df.isnull().sum().sum() > 0:
+        return False
+    else: # checking for NaN, again no missing data
+        rowarray = df.values
+        print("testing indexing by taking the first row and its weight value:", rowarray[0,1])
+        print("the array: \n", rowarray)
+        print("\n Storing it uses", rowarray.nbytes, "bytes")  # checking how much bytes it uses
+array()
