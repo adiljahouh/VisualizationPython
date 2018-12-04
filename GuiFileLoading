@@ -1,0 +1,88 @@
+from PyQt5 import (QtWidgets, QtGui)
+from PyQt5.QtWidgets import (QMainWindow, QTextEdit, 
+    QAction, QFileDialog, QApplication, QWidget, QHBoxLayout, QFrame, 
+    QSplitter, QStyleFactory, QApplication, QLabel, QPushButton)
+from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtCore import Qt
+import sys
+import os
+
+class Example(QMainWindow, QWidget):
+    
+    def __init__(self):
+        super().__init__()
+        
+        self.initUI()
+        
+        
+    def initUI(self):    
+        
+        self.textEdit = QTextEdit()
+        self.setCentralWidget(self.textEdit)
+        self.statusBar()
+        # Top left file menu
+        openFile = QAction(QIcon('open.png'), 'Open', self)
+        openFile.setShortcut('Ctrl+O')
+        openFile.setStatusTip('Open new File')
+        openFile.triggered.connect(self.showDialog)
+        # Top menu
+        menubar = self.menuBar()
+        fileMenu = menubar.addMenu('&File')
+        fileMenu.addAction(openFile)
+        editMenu = menubar.addMenu('Edit')
+        viewMenu = menubar.addMenu('View')
+        searchMenu = menubar.addMenu('Search')
+        toolsMenu = menubar.addMenu('Tools')
+        helpMenu = menubar.addMenu('Help')
+        
+        label = QLabel(self)
+        label.move(300,0)
+        label.setText("File Data")
+        
+        button1 = QPushButton("Dijkstra's Algorithm", self)
+        button1.setToolTip("Dijkstra's Algorithm")
+        button1.move(600,40)
+        
+        l1 = QtWidgets.QLabel(self)
+        l1.setText("Dynamic Graph")
+        l1.move(300,20)
+        
+        
+        button2 = QPushButton("Adjacency Matrix", self)
+        button2.setToolTip("Adjecency Matrix")
+        button2.move(600,400)
+ 
+        exitButton = QAction(QIcon('exit24.png'), 'Exit', self)
+        exitButton.setShortcut('Ctrl+Q')
+        exitButton.setStatusTip('Exit application')
+        exitButton.triggered.connect(self.close)
+        fileMenu.addAction(exitButton)
+       
+        self.setGeometry(500, 500, 750, 600)
+        self.setWindowTitle('GUI')
+        
+        self.show()
+        
+    def font_choice(self):
+        font, valid = QtGui.QfontDialog.getFont()
+        if valid:
+            button2.setFont(font)
+        
+        
+        
+    def showDialog(self):
+
+        fname = QFileDialog.getOpenFileName(self, 'Open file', os.getenv('profile_semantic_trafo_final.txt')) #directory of our only file where we can select more
+
+        if fname[0]:
+            f = open(fname[0], 'r') # if has something in it go read
+
+            with f:
+                data = f.read()
+                self.textEdit.setText(data)        
+        
+if __name__ == '__main__':
+    
+    app = QApplication(sys.argv)
+    ex = Example()
+    sys.exit(app.exec_())
