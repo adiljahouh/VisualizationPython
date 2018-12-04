@@ -20,4 +20,9 @@ def array():
         print("testing indexing by taking the first row and its weight value:", rowarray[0,1])
         print("the array: \n", rowarray)
         print("\n Storing it uses", rowarray.nbytes, "bytes")  # checking how much bytes it uses
+        
+def iterating():
+    dimensarray = df.values
+    print(dimensarray[0:1000, 1])
+iterating()
 array()
