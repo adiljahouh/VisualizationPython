@@ -1,0 +1,36 @@
+#Opening the data set, cleaning and importing
+import pandas as pd
+import numpy as np
+import seaborn.apionly as sns
+import matplotlib.pyplot as plt
+
+data = pd.read_csv('profile_semantic_trafo_final.txt', sep=" ", header=None, names=["time", "start", "target", "weight"])
+data1 = data.drop(0)
+data1 = data1.convert_objects(convert_numeric=True)
+
+#Creating the Aggregated Dictionaries based on start/target nodes and time
+
+nodes1 = {}
+for index, row in data1.iterrows():
+    node1 = str(row['start'])
+    node2 = str(row['target'])
+    if node1 in nodes1.keys():
+        nodes1[node1].append([row['time'], row['target'], row['weight']])
+    else:
+        nodes1[node1] = [[row['time'], row['target'], row['weight']]]
+        
+    if node2 in nodes1.keys():
+        nodes1[node2].append([row['time'], row['start'], row['weight']])
+    else:
+        nodes1[node2] = [[row['time'], row['start'], row['weight']]]
+
+times = {}
+for index, row in data1.iterrows():
+    time = str(row['time'])
+    if time in times.keys():
+        times[time].append([row['start'], row['target'], row['weight']])
+    else:
+        times[time] = [[row['start'], row['target'], row['weight']]]
+
+#Creating a Pivot Table
+pd = pd.pivot_table(data1,index=["time","start", "target"])
